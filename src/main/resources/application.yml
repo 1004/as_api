@@ -1,0 +1,18 @@
+server:
+  port: 5088
+  compression:
+    enabled: true
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mytest?characterEncoding=utf8&useSSL=true
+    username: root
+    password: rootXKY123
+mybatis:
+  mapper-locations: classpath:mybatis/*.xml
+  type-aliases-package: com.aike.xky.as_api.entity
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    com.aike.xky.as_api.mapper: debug
