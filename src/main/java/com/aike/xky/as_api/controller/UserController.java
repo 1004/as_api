@@ -3,6 +3,7 @@ package com.aike.xky.as_api.controller;
 import com.aike.xky.as_api.entity.UserEntity;
 import com.aike.xky.as_api.entity.base.ResponseCode;
 import com.aike.xky.as_api.entity.base.ResponseEntity;
+import com.aike.xky.as_api.interceptor.login.NeedLogin;
 import com.aike.xky.as_api.service.UserService;
 import com.aike.xky.as_api.utils.DateUtil;
 import com.aike.xky.as_api.utils.UserRedisUtil;
@@ -68,6 +69,7 @@ public class UserController {
         return ResponseEntity.success(userEntity);
     }
 
+    @NeedLogin
     @ApiOperation("退出登录")
     @RequestMapping(value = "/logout")
     public ResponseEntity logout(HttpServletRequest servletRequest) {
