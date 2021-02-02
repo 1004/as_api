@@ -5,16 +5,19 @@ import com.aike.xky.as_api.entity.base.ResponseCode;
 import com.aike.xky.as_api.entity.base.ResponseEntity;
 import com.aike.xky.as_api.service.UserService;
 import com.aike.xky.as_api.utils.DateUtil;
+import com.aike.xky.as_api.utils.UserRedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Api(tags = {"Account"})
@@ -24,9 +27,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @ApiOperation("注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -38,7 +42,7 @@ public class UserController {
 
     @ApiOperation("登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity login(@RequestParam(name = "username") @ApiParam("用户名") String user_name, @RequestParam(name = "pwd") @ApiParam("密码") String pwd) {
+    public ResponseEntity login(@RequestParam(name = "username") @ApiParam("用户名") String user_name, @RequestParam(name = "pwd") @ApiParam("密码") String pwd, HttpServletRequest servletRequest) {
         List<UserEntity> userEntities = userService.queryUserByName(user_name);
         if (userEntities == null || userEntities.isEmpty()) {
             return ResponseEntity.of(ResponseCode.RC_ACCOUNT_INVALID);
@@ -57,7 +61,19 @@ public class UserController {
         if ("0".equals(userEntity.getUserEnable())) {
             return ResponseEntity.of(ResponseCode.RC_USER_FORBIND);
         }
+        //入缓存
+        UserRedisUtil.addUser(redisTemplate, servletRequest, userEntity);
+        userEntity.setPwd(null);
+        userEntity.setToken(UserRedisUtil.getKey(servletRequest.getSession()));
         return ResponseEntity.success(userEntity);
     }
+
+    @ApiOperation("退出登录")
+    @RequestMapping(value = "/logout")
+    public ResponseEntity logout(HttpServletRequest servletRequest) {
+        UserRedisUtil.deleteUser(redisTemplate, servletRequest);
+        return ResponseEntity.success(null);
+    }
+
 
 }

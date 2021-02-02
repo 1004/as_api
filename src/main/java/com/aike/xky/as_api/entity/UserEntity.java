@@ -16,6 +16,9 @@ public class UserEntity {
     /** 密码 */
     private String pwd ;
 
+    /**token**/
+    private String token;
+
     public String getUid() {
         return uid;
     }
@@ -70,5 +73,13 @@ public class UserEntity {
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

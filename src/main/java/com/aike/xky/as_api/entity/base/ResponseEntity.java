@@ -1,5 +1,8 @@
 package com.aike.xky.as_api.entity.base;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class ResponseEntity {
     private int code;
     private String msg;
