@@ -4,4 +4,12 @@
     <insert id="addUser">
         INSERT INTO t_user(user_name,sex,user_enable,create_time,user_phone,pwd) VALUES(#{user_name},#{sex},#{enable},#{createTime},#{userPhone},#{pwd});
     </insert>
+    <select id="queryUserByName" resultType="com.aike.xky.as_api.entity.UserEntity">
+        SELECT
+            *
+        FROM
+            t_user
+        WHERE
+	        user_name = #{user_name}
+    </select>
 </mapper>
