@@ -1,22 +1,41 @@
 package com.aike.xky.as_api.entity;
 
-public class UserEntity {
-    /** 用户ID */
-    private String uid ;
-    /** 用户名 */
-    private String userName ;
-    /** 性别 */
-    private String sex ;
-    /** 是否禁用 */
-    private String userEnable ;
-    /** 创建时间 */
-    private String createTime ;
-    /** 电话 */
-    private String userPhone ;
-    /** 密码 */
-    private String pwd ;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-    /**token**/
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class UserEntity {
+    /**
+     * 用户ID
+     */
+    private String uid;
+    /**
+     * 用户名
+     */
+    private String userName;
+    /**
+     * 性别
+     */
+    private String sex;
+    /**
+     * 是否禁用
+     */
+    private String userEnable;
+    /**
+     * 创建时间
+     */
+    private String createTime;
+    /**
+     * 电话
+     */
+    private String userPhone;
+    /**
+     * 密码
+     */
+    private String pwd;
+
+    /**
+     * token
+     **/
     private String token;
 
     public String getUid() {
