@@ -8,6 +8,8 @@ public enum ResponseCode {
     RC_PWD_INVALID(5002, "密码错误"),
     RC_USER_FORBIND(5003, "用户禁用"),
 
+    RC_GOODS_CATEGROY_REPEAT(6001,"商品添加重复")
+
     ;
     private int code;
     private String msg;

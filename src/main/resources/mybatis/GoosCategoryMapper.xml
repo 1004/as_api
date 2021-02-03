@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aike.xky.as_api.mapper.GoodsCategoryMapper">
+    <insert id="addGoodsCategory">
+        INSERT INTO t_goods_category ( category_name, create_time )
+        VALUES
+	        (#{categroy_name}, #{create_time})
+    </insert>
+    <select id="queryAllGoodsCategory" resultType="com.aike.xky.as_api.entity.GoodsCategoryEntity">
+        SELECT
+            *
+        FROM
+	        t_goods_category
+   </select>
+    <delete id="deleteGoodsCategory">
+        DELETE
+        FROM
+            t_goods_category
+        WHERE
+	        category_id = #{category_id}
+    </delete>
+</mapper>
