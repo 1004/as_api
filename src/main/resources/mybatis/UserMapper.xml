@@ -12,4 +12,16 @@
         WHERE
 	        user_name = #{user_name}
     </select>
+    <select id="getAllUser" resultType="com.aike.xky.as_api.entity.UserEntity">
+        SELECT
+            *
+        FROM
+            t_user
+    </select>
+    <update id="setUserEnable">
+        UPDATE t_user
+        SET user_enable = #{user_enable}
+        WHERE
+	    uid = #{uid}
+    </update>
 </mapper>

@@ -35,4 +35,21 @@ public class UserService {
     public List<UserEntity> queryUserByName(String user_name) {
         return userMapper.queryUserByName(user_name);
     }
+
+    /**
+     * 获取所有用户
+     * @return
+     */
+    public List<UserEntity> getAllUser(){
+        return userMapper.getAllUser();
+    }
+
+    /**
+     * 更改用户禁用状态
+     * @param user_enable
+     * @param uid
+     */
+    public void setUserEnable(String user_enable,String uid){
+        userMapper.setUserEnable(user_enable,uid);
+    }
 }

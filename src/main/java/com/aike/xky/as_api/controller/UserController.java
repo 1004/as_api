@@ -6,7 +6,9 @@ import com.aike.xky.as_api.entity.base.ResponseEntity;
 import com.aike.xky.as_api.interceptor.login.NeedLogin;
 import com.aike.xky.as_api.service.UserService;
 import com.aike.xky.as_api.utils.DateUtil;
+import com.aike.xky.as_api.utils.PageUtiil;
 import com.aike.xky.as_api.utils.UserRedisUtil;
+import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -64,7 +66,6 @@ public class UserController {
         }
         //入缓存
         UserRedisUtil.addUser(redisTemplate, servletRequest, userEntity);
-        userEntity.setPwd(null);
         userEntity.setToken(UserRedisUtil.getKey(servletRequest.getSession()));
         return ResponseEntity.success(userEntity);
     }
@@ -74,6 +75,24 @@ public class UserController {
     @RequestMapping(value = "/logout")
     public ResponseEntity logout(HttpServletRequest servletRequest) {
         UserRedisUtil.deleteUser(redisTemplate, servletRequest);
+        return ResponseEntity.success(null);
+    }
+
+
+    @ApiOperation("获取用户支持分页")
+    @RequestMapping(value = "/userlist", method = RequestMethod.GET)
+    public ResponseEntity getUser(@RequestParam("page_index") @ApiParam(value = "开始页") int pageIndex
+            , @RequestParam("page_size") @ApiParam(value = "每页数据个数") int pageSize) {
+        PageHelper.startPage(pageIndex, pageSize);
+        List<UserEntity> allUser = userService.getAllUser();
+        return ResponseEntity.success(PageUtiil.getPageData(allUser));
+    }
+
+    @ApiOperation("修改用户禁用状态")
+    @RequestMapping(value = "/updata/enalbe")
+    public ResponseEntity setUserEnalbe(@RequestParam("uid") @ApiParam("用户id") String uid
+            , @RequestParam("user_enable") @ApiParam("用户是否禁用：1：不禁用，0：禁用") String user_enable) {
+        userService.setUserEnable(user_enable,uid);
         return ResponseEntity.success(null);
     }
 

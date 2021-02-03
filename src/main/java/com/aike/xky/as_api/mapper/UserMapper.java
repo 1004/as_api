@@ -10,4 +10,8 @@ public interface UserMapper {
     void addUser(String user_name, String sex, String enable, String userPhone, String pwd, String createTime);
 
     List<UserEntity> queryUserByName(String user_name);
+
+    List<UserEntity> getAllUser();
+
+    void setUserEnable(String user_enable,String uid);
 }
