@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aike.xky.as_api.mapper.ConfigCenterMapper">
+    <select id="queryByNamespace" resultType="com.aike.xky.as_api.entity.ConfigCenterEntity">
+        SELECT
+            *
+        FROM
+            t_config_center
+        WHERE
+	    namespance = #{namespance}
+    </select>
+    <select id="queryNewAll" resultType="com.aike.xky.as_api.entity.ConfigCenterEntity">
+        SELECT
+            *
+        FROM
+            t_config_center
+        WHERE
+	        id IN ( SELECT MAX( id ) FROM t_config_center GROUP BY namespance )
+    </select>
+</mapper>

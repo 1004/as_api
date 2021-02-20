@@ -30,6 +30,7 @@ public class SwaggerConfig {
                 .ignoredParameterTypes(ApiIgnore.class)
                 .enableUrlTemplating(false)
                 .tags(new Tag("Account", "账号模块"))
+                .tags(new Tag("ConfigCenter", "配置中心"))
                 .tags(new Tag("GoodsCategory","商品分类"));
     }
 
