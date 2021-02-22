@@ -1,5 +1,6 @@
 package com.aike.xky.as_api.service;
 
+import com.aike.xky.as_api.cache.ConfigCacheManager;
 import com.aike.xky.as_api.entity.ConfigCenterEntity;
 import com.aike.xky.as_api.mapper.ConfigCenterMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,24 @@ public class ConfigCenterService {
     }
 
     public List<ConfigCenterEntity> queryNewAll() {
-        return centerMapper.queryNewAll();
+        List<ConfigCenterEntity> centerEntities = centerMapper.queryNewAll();
+        if (centerEntities == null) {
+            return null;
+        }
+        for (ConfigCenterEntity entity : centerEntities) {
+            ConfigCacheManager.getInstance().putMemCache(getKey(entity.getNamespance()), entity);
+        }
+        ConfigCacheManager.getInstance().needRefreshConifg = false;
+        return centerEntities;
     }
+
+    public void saveConfig(ConfigCenterEntity configCenterEntity) {
+        centerMapper.saveConfig(configCenterEntity);
+        ConfigCacheManager.getInstance().putMemCache(getKey(configCenterEntity.getNamespance()), configCenterEntity);
+    }
+
+    private String getKey(String nameSpace) {
+        return nameSpace == null ? ConfigCacheManager.KEY.CONFIG : nameSpace;
+    }
+
 }

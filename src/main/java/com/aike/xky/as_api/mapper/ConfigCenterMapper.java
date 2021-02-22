@@ -11,4 +11,6 @@ public interface ConfigCenterMapper {
 
     public List<ConfigCenterEntity> queryNewAll();
 
+    public void saveConfig(ConfigCenterEntity configCenterEntity);
+
 }

@@ -17,4 +17,10 @@
         WHERE
 	        id IN ( SELECT MAX( id ) FROM t_config_center GROUP BY namespance )
     </select>
+    <insert id="saveConfig" parameterType="com.aike.xky.as_api.entity.ConfigCenterEntity">
+        INSERT INTO t_config_center ( namespance, version, create_time, original_url, json_url )
+        VALUES
+    	( #{namespance}, #{version}, #{createTime}, #{originalUrl}, #{jsonUrl} )
+    </insert>
+
 </mapper>

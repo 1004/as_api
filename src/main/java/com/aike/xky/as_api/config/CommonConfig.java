@@ -1,5 +1,6 @@
 package com.aike.xky.as_api.config;
 
+import com.aike.xky.as_api.interceptor.CommonInterceptor;
 import com.aike.xky.as_api.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +20,13 @@ public class CommonConfig implements WebMvcConfigurer {
     @Autowired
     private LoginInterceptor loginInterceptor;
 
+    @Autowired
+    private CommonInterceptor commonInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor);
+        registry.addInterceptor(commonInterceptor);
     }
 
     @Override

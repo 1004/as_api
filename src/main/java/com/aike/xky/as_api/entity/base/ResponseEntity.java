@@ -1,12 +1,25 @@
 package com.aike.xky.as_api.entity.base;
 
+import com.aike.xky.as_api.cache.ConfigDelegate;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class ResponseEntity {
     private int code;
     private String msg;
     private Object data;
+    private Map<String ,Object> ext = new HashMap<>();
+
+    public Map<String, Object> getExt() {
+        return ext;
+    }
+
+    public void setExt(Map<String, Object> ext) {
+        this.ext = ext;
+    }
 
     public int getCode() {
         return code;
@@ -39,6 +52,7 @@ public class ResponseEntity {
     private ResponseEntity(int code, String msg) {
         this.code = code;
         this.msg = msg;
+        ConfigDelegate.resBindConfig(ext);
     }
 
     public static ResponseEntity of(ResponseCode responseCode) {

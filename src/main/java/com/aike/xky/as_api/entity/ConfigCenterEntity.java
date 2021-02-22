@@ -1,7 +1,10 @@
 package com.aike.xky.as_api.entity;
 
+import com.aike.xky.as_api.utils.DateUtil;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -10,11 +13,16 @@ import java.util.Map;
  * @date 2021/2/20 2:50 下午
  */
 @JsonIgnoreProperties(value = {"contentMap"})
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class ConfigCenterEntity {
     /**
      * 扩展字段信息
      */
     private Map<String, String> contentMap;
+    /**
+     * 原始内容
+     */
+    private String content;
     /**
      * 配置id
      */
@@ -87,4 +95,51 @@ public class ConfigCenterEntity {
     public void setJsonUrl(String jsonUrl) {
         this.jsonUrl = jsonUrl;
     }
+
+    public Map<String, String> getContentMap() {
+        return contentMap;
+    }
+
+    public void setContentMap(Map<String, String> contentMap) {
+        this.contentMap = contentMap;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    /**
+     * 生产配置信息
+     * 缺少2个uri等待上传cdn后，进行完善
+     *
+     * @param namespance
+     * @param content
+     * @return
+     */
+    public static ConfigCenterEntity of(String namespance, String content) {
+        ConfigCenterEntity configCenterEntity = new ConfigCenterEntity();
+        configCenterEntity.content = content;
+        configCenterEntity.namespance = namespance;
+        configCenterEntity.createTime = DateUtil.currentTime();
+        configCenterEntity.version = DateUtil.generateVersion();
+        configCenterEntity.contentMap = parseContent(content);
+        return configCenterEntity;
+    }
+
+    private static Map<String, String> parseContent(String content) {
+        Map<String, String> temp = new HashMap<>();
+        String[] items = content.split("\n");
+        for (String item : items) {
+            String[] kvs = item.split("=");
+            if (kvs.length > 1) {
+                temp.put(kvs[0], kvs[1]);
+            }
+        }
+        return temp;
+    }
+
 }
