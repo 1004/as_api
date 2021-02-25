@@ -8,6 +8,7 @@
             t_config_center
         WHERE
 	    namespance = #{namespance}
+	    ORDER BY version DESC
     </select>
     <select id="queryNewAll" resultType="com.aike.xky.as_api.entity.ConfigCenterEntity">
         SELECT
