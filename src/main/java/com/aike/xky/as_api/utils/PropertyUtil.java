@@ -14,6 +14,6 @@ public class PropertyUtil {
     }
 
     public static String getCNDPrefix(String append) {
-        return "http://127.0.0.1:5088/as/" + append;
+        return "http://10.36.210.8:8080/as/" + append;
     }
 }
